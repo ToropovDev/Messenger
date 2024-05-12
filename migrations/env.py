@@ -5,6 +5,7 @@ from sqlalchemy import pool
 
 from backend.src.base_config import DB_USER, DB_PORT, DB_PASS, DB_NAME, DB_HOST
 from backend.src.auth.models import metadata as auth_metadata
+from backend.src.messages.models import metadata as message_metadata
 
 from alembic import context
 
@@ -28,7 +29,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = [auth_metadata]
+target_metadata = [auth_metadata, message_metadata]
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

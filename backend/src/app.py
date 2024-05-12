@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi_users import FastAPIUsers
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.dialects.postgresql import UUID
 
 from backend.src.auth.config import auth_backend
@@ -7,10 +8,19 @@ from backend.src.auth.models import User
 from backend.src.auth.schemas import UserRead, UserCreate, UserUpdate
 from backend.src.auth.manager import get_user_manager
 
+from backend.src.messages.router import router as messages_router
 
 app = FastAPI(
     title="Мессенджер",
     version="0.1",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # can alter with time
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 fastapi_users = FastAPIUsers[User, UUID](
@@ -47,3 +57,5 @@ app.include_router(
     prefix="/users",
     tags=["users"],
 )
+
+app.include_router(messages_router)
